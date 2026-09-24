@@ -1,0 +1,28 @@
+# Python virtual environments
+.venv/
+.venv-windows/
+.ansible-venv/
+**/.venv/
+**/.ansible-venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Terraform generated/state files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Environment/secrets
+.env
+.env.*
+*.tfvars
+*.tfvars.json
+
+# Ansible
+*.retry

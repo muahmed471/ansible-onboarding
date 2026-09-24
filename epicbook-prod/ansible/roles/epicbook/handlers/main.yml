@@ -1,0 +1,10 @@
+---
+- name: Restart EpicBook
+  shell: |
+    cd /opt/epicbook
+    pm2 restart epicbook || pm2 start npm --name epicbook -- start
+    pm2 save
+  args:
+    executable: /bin/bash
+  environment:
+    PORT: "{{ app_port }}"

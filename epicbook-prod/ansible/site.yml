@@ -1,0 +1,9 @@
+---
+- name: Configure EpicBook Web Server
+  hosts: web
+  become: true
+
+  roles:
+    - common
+    - nginx
+    - epicbook

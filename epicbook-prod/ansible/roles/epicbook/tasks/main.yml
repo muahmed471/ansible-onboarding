@@ -1,0 +1,46 @@
+---
+- name: Clone EpicBook repository
+  git:
+    repo: "https://github.com/pravinmishraaws/theepicbook.git"
+    dest: /opt/epicbook
+    version: main
+    force: yes
+
+- name: Set ownership of EpicBook application
+  file:
+    path: /opt/epicbook
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    recurse: yes
+
+- name: Install EpicBook dependencies
+  npm:
+    path: /opt/epicbook
+    state: present
+
+- name: Create EpicBook environment file
+  copy:
+    dest: /opt/epicbook/.env
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
+    content: |
+      DB_HOST={{ db_host }}
+      DB_USER={{ db_user }}
+      DB_PASSWORD={{ vault_db_password }}
+      DB_NAME={{ db_name }}
+      DB_PORT={{ db_port }}
+      PORT={{ app_port }}
+  no_log: true
+  notify: Restart EpicBook
+
+- name: Start EpicBook with PM2
+  shell: |
+    cd /opt/epicbook
+    pm2 delete epicbook || true
+    pm2 start npm --name epicbook -- start
+    pm2 save
+  args:
+    executable: /bin/bash
+  environment:
+    PORT: "{{ app_port }}"

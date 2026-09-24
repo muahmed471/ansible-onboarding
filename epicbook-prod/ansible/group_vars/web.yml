@@ -1,0 +1,7 @@
+---
+app_port: 8080
+
+db_host: "mysql-epicbook-86627e71.mysql.database.azure.com"
+db_port: 3306
+db_user: "mysqladmin"
+db_name: "book_review_db"
